@@ -46,7 +46,7 @@ function Finaller(fifaDizisi) {
 	);
 
 }
-console.log("görev-2 : ", Finaller(fifaData));
+//console.log("görev-2 : ", Finaller(fifaData));
 
 
 /*  Görev 3: 
@@ -64,7 +64,7 @@ function Yillar(fifaDataDizisi,callFinaller) {
 	return finaldeger;
 	
 }
-console.log("görev 3 : ",Yillar(fifaData,Finaller));
+//console.log("görev 3 : ",Yillar(fifaData,Finaller));
 
 /*  Görev 4: 
 	Bir higher-order fonksiyonunu olan Kazananlar isimli fonksiyona aşağıdakileri uygulayın:  
@@ -93,7 +93,7 @@ function Kazananlar(fifaAr,callFinaller) {
 	});
 	return kazananlar;
 }
-console.log("görev 4 :" ,Kazananlar(fifaData,Finaller));
+//console.log("görev 4 :" ,Kazananlar(fifaData,Finaller));
 
 /*  Görev 5: 
 	Bir higher-order fonksiyonu olan YillaraGoreKazananlar isimli fonksiyona aşağıdakileri uygulayın:
@@ -118,7 +118,7 @@ function YillaraGoreKazananlar(fifaArrr,finalcall,yilcall,kazanancall) {
 return sonuclarMetin;
 }
 //YillaraGoreKazananlar(fifaData,Finaller,Yillar,Kazananlar);
-console.log("Görev-5",YillaraGoreKazananlar(fifaData,Finaller,Yillar,Kazananlar)) ;
+//console.log("Görev-5",YillaraGoreKazananlar(fifaData,Finaller,Yillar,Kazananlar)) ;
 
 
 /*  Görev 6: 
@@ -180,28 +180,61 @@ function UlkelerinKazanmaSayilari(data , takimKisaltmalari) {
 	//console.log(hangiTakimKacKezKazandi);
 	return `Takım kısaltması ${takimKisaltmalari} olan takım ${hangiTakimKacKezKazandi} kez kazandı.`;
 }
-console.log("BONUS-1 :", UlkelerinKazanmaSayilari(fifaData,"ARG"));
+//console.log("BONUS-1 :", UlkelerinKazanmaSayilari(fifaData,"ARG"));
 
 
 /*  BONUS 2:  
 EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
 
 function EnCokGolAtan(fifaData2) {
-    /* kodlar buraya */
+    // /* kodlar buraya */
+	// const finaldatasi = fifaData2.filter((mac) => mac.Stage ==="Final");
+	// let enCokGolAtanTakim ="";
+	// let golSayisi = 0;
+	// for (let i in finaldatasi){
+	// 	if(finaldatasi[i]["Home Team Goals"]>finaldatasi[i]["Away Team Goals"]&&finaldatasi[i]["Home Team Goals"]>golSayisi){
+	// 		enCokGolAtanTakim = finaldatasi[i]["Home Team Name"];
+	// 		golSayisi = finaldatasi[i]["Home Team Goals"];
+	// 	}else if (finaldatasi[i]["Away Team Goals"]>golSayisi){
+	// 		enCokGolAtanTakim = finaldatasi[i]["Away Team Name"];
+	// 		golSayisi = finaldatasi[i]["Away Team Goals"];
+	// 	}
+	// }
+	// //console.log(enCokGolAtanTakim,golSayisi);
+	// return `En çok gol atan takım ${enCokGolAtanTakim} attığı gol sayısı ${golSayisi}`;
+
 	const finaldatasi = fifaData2.filter((mac) => mac.Stage ==="Final");
-	let enCokGolAtanTakim ="";
-	let golSayisi = 0;
-	for (let i in finaldatasi){
-		if(finaldatasi[i]["Home Team Goals"]>finaldatasi[i]["Away Team Goals"]&&finaldatasi[i]["Home Team Goals"]>golSayisi){
-			enCokGolAtanTakim = finaldatasi[i]["Home Team Name"];
-			golSayisi = finaldatasi[i]["Home Team Goals"];
-		}else if (finaldatasi[i]["Away Team Goals"]>golSayisi){
-			enCokGolAtanTakim = finaldatasi[i]["Away Team Name"];
-			golSayisi = finaldatasi[i]["Away Team Goals"];
-		}
-	}
-	//console.log(enCokGolAtanTakim,golSayisi);
-	return `En çok gol atan takım ${enCokGolAtanTakim} attığı gol sayısı ${golSayisi}`;
+	//console.log(finaldatasi);
+	const takimSkorlari=finaldatasi.map((mac) => {
+		const hInitial = mac["Home Team Initials"];
+		const aInitial = mac["Away Team Initials"];
+		const hGoals =mac["Home Team Goals"];
+		const aGoals =mac["Away Team Goals"];
+		 return [[hInitial,hGoals],[aInitial,aGoals]];
+		//console.log(hInitial,hGoals, aInitial,aGoals);
+		// return {
+		// 	[hInitial] : mac["Home Team Goals"],
+		// 	[aInitial] : mac["Away Team Goals"],
+		// };
+	});
+	//const takimveGol = takimSkorlari.map((obj) => Object.entries(obj));
+	//console.log("deneme",takimSkorlari,"deneme");
+	const takimVegol = takimSkorlari.reduce((acc,pairs) => {
+		//console.log("deneme",acc,pairs);
+		pairs.forEach(([key,value]) =>{
+			acc[key] =(acc[key]||0) +value;
+		});
+		return acc;
+	}, {});
+	//console.log(degerleri);
+	// // const son = takimSkorlari.reduce((mac,goll,num,diz) => {
+	// // 	console.log("ed",goll[0]);
+	// // 	mac = mac + goll[0][0]+" "+goll[0][1]+" "+goll[1][0]+" "+goll[1][1]+" ";
+	// // 	return mac;
+	// // },{});
+	//return takimSkorlari;
+	const enCokGol = Object.entries(takimVegol).sort((a,b) =>b[1]-a[1]);
+	return enCokGol[0][0] ;
 }
 console.log("BONUS-2 :" , EnCokGolAtan(fifaData));
 
@@ -212,19 +245,23 @@ function EnKotuDefans(fifaDatadizi) {
 	
     /* kodlar buraya */
 	const finaldatasi = fifaDatadizi.filter((mac) => mac.Stage ==="Final");
-	let enCokGolYiyenTakim ="";
-	let golSayisi = 0;
-	for (let i in finaldatasi){
-		if(finaldatasi[i]["Home Team Goals"]>finaldatasi[i]["Away Team Goals"]&&finaldatasi[i]["Home Team Goals"]>golSayisi){
-			enCokGolYiyenTakim = finaldatasi[i]["Away Team Name"];
-			golSayisi = finaldatasi[i]["Home Team Goals"];
-		}else if (finaldatasi[i]["Away Team Goals"]>golSayisi){
-			enCokGolYiyenTakim = finaldatasi[i]["Home Team Name"];
-			golSayisi = finaldatasi[i]["Away Team Goals"];
-		}
-	}
-	//console.log(enCokGolAtanTakim,golSayisi);
-	return `En çok gol yiyen takım ${enCokGolYiyenTakim} yediği gol sayısı ${golSayisi}`;
+	const takimSkorlari=finaldatasi.map((mac) => {
+		const hInitial = mac["Home Team Initials"];
+		const aInitial = mac["Away Team Initials"];
+		const aGoals =mac["Home Team Goals"];
+		const hGoals =mac["Away Team Goals"];
+		 return [[hInitial,hGoals],[aInitial,aGoals]];
+	});
+
+	const takimVegol = takimSkorlari.reduce((acc,pairs) => {
+		pairs.forEach(([key,value]) =>{
+			acc[key] =(acc[key]||0) +value;
+		});
+		return acc;
+	}, {});
+	const cokGolYiyen = Object.entries(takimVegol).sort((a,b) =>b[1]-a[1]);
+	return cokGolYiyen[0][0] ;
+	
 	
 }
 console.log("BONUS-3 :" , EnKotuDefans(fifaData));
