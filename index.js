@@ -177,9 +177,10 @@ function UlkelerinKazanmaSayilari(data , takimKisaltmalari) {
 		}
 		
 	},0)
-	console.log(hangiTakimKacKezKazandi);
+	//console.log(hangiTakimKacKezKazandi);
+	return `Takım kısaltması ${takimKisaltmalari} olan takım ${hangiTakimKacKezKazandi} kez kazandı.`;
 }
-console.log("BONUS-1 : ", UlkelerinKazanmaSayilari(fifaData,"ARG"));
+console.log("BONUS-1 :", UlkelerinKazanmaSayilari(fifaData,"ARG"));
 
 
 /*  BONUS 2:  
@@ -189,26 +190,44 @@ function EnCokGolAtan(fifaData2) {
     /* kodlar buraya */
 	const finaldatasi = fifaData2.filter((mac) => mac.Stage ==="Final");
 	let enCokGolAtanTakim ="";
+	let golSayisi = 0;
 	for (let i in finaldatasi){
-		if(finaldatasi[i]["Home Team Goals"]>finaldatasi[i]["Away Team Goals"]){
+		if(finaldatasi[i]["Home Team Goals"]>finaldatasi[i]["Away Team Goals"]&&finaldatasi[i]["Home Team Goals"]>golSayisi){
 			enCokGolAtanTakim = finaldatasi[i]["Home Team Name"];
-		}else{
+			golSayisi = finaldatasi[i]["Home Team Goals"];
+		}else if (finaldatasi[i]["Away Team Goals"]>golSayisi){
 			enCokGolAtanTakim = finaldatasi[i]["Away Team Name"];
+			golSayisi = finaldatasi[i]["Away Team Goals"];
 		}
 	}
-	return enCokGolAtanTakim;
+	//console.log(enCokGolAtanTakim,golSayisi);
+	return `En çok gol atan takım ${enCokGolAtanTakim} attığı gol sayısı ${golSayisi}`;
 }
 console.log("BONUS-2 :" , EnCokGolAtan(fifaData));
 
 /*  BONUS 3: 
 EnKotuDefans() adında bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupasında finallerinde en çok golü yiyen takımı döndürsün*/
 
-function EnKotuDefans(/* kodlar buraya */) {
+function EnKotuDefans(fifaDatadizi) {
 	
     /* kodlar buraya */
+	const finaldatasi = fifaDatadizi.filter((mac) => mac.Stage ==="Final");
+	let enCokGolYiyenTakim ="";
+	let golSayisi = 0;
+	for (let i in finaldatasi){
+		if(finaldatasi[i]["Home Team Goals"]>finaldatasi[i]["Away Team Goals"]&&finaldatasi[i]["Home Team Goals"]>golSayisi){
+			enCokGolYiyenTakim = finaldatasi[i]["Away Team Name"];
+			golSayisi = finaldatasi[i]["Home Team Goals"];
+		}else if (finaldatasi[i]["Away Team Goals"]>golSayisi){
+			enCokGolYiyenTakim = finaldatasi[i]["Home Team Name"];
+			golSayisi = finaldatasi[i]["Away Team Goals"];
+		}
+	}
+	//console.log(enCokGolAtanTakim,golSayisi);
+	return `En çok gol yiyen takım ${enCokGolYiyenTakim} yediği gol sayısı ${golSayisi}`;
 	
 }
-
+console.log("BONUS-3 :" , EnKotuDefans(fifaData));
 
 /* Hala vaktiniz varsa, README dosyasında listelenen hedeflerden istediğinizi aşağıdaki boşluğa yazabilirsiniz. */
 
